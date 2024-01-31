@@ -18,7 +18,7 @@ app.use(cors({
   exposedHeaders: ['Authorization'],
 }));
 
-app.options('https://qniver.netlify.app', cors());
+app.options('*', cors());
 
 // app.options('/api/Login', cors(), (req, res) => {
 //   res.sendStatus(200);
