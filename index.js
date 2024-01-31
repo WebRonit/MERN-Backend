@@ -15,7 +15,10 @@ app.use(cors({
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204,
+  exposedHeaders: ['Authorization'],
 }));
+
+app.options('*', cors());
 
 // app.options('/api/Login', cors(), (req, res) => {
 //   res.sendStatus(200);
