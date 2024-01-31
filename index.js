@@ -11,6 +11,10 @@ dotenv.config({path: './config.env'});
 
 const app = express();
 app.use(cors({ origin: '*' }));
+
+app.options('/api/Login', cors(), (req, res) => {
+  res.sendStatus(200);
+});
 const PORT = process.env.PORT || 3001; 
 
 
