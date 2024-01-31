@@ -10,14 +10,7 @@ const secret = "ronit9664";
 dotenv.config({path: './config.env'}); 
 
 const app = express();
-const corsOptions = {
-    origin: 'https://qniver.netlify.app',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true, 
-    optionsSuccessStatus: 204,
-  };
-
-app.use(cors(corsOptions));
+app.use(cors({ origin: '*' }));
 const PORT = process.env.PORT || 3001; 
 
 
