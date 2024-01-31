@@ -6,8 +6,9 @@ const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const secret = "ronit9664";
 
-dotenv.config({path: './config.env'});
+dotenv.config({path: './config.env'}); 
 
 const app = express();
 app.use(cors())
@@ -29,6 +30,40 @@ const User = mongoose.model('User', userSchema);
 // Middleware
 app.use(bodyParser.json());
 
+const verifyToken = (req, res, next) => {
+  const token = req.header('Authorization');
+
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, secret);
+    req.user = decoded; // Attach user information to the request object
+    next();
+  } catch (error) {
+    console.error(error);
+    res.status(401).json({ message: 'Invalid token' });
+  }
+};
+
+// Example route for the dashboard
+app.get('/Dashboard', verifyToken, async (req, res) => {
+  const userId = req.user.userId;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+});
 
 
 
@@ -49,7 +84,6 @@ app.post('/api/SignUp', async (req, res) => {
 
     // Hash the password before saving to the database
     const hashedPassword = await bcrypt.hash(password, 10);
-
     // Create a new user
     const newUser = new User({ fullname, email, password: hashedPassword });
     await newUser.save(); 
@@ -88,10 +122,8 @@ app.post('/api/Login' , async (req, res) => {
     }
 
     // Generate a JWT token for authentication
-    const token = jwt.sign({ userId: user._id, email: user.email }, 'R@n!tDUtt@JWT989', { expiresIn: '1h' });
-
-    // Send the token in the response
-    res.status(200).json({ token, userId: user._id, expiresIn: 3600 }); // expiresIn is in seconds (1 hour in this example)
+    const token = jwt.sign({ userId: user._id, fullname: user.fullname, email: user.email }, secret, { expiresIn: '30d' });
+    res.status(200).json({ token, userId: user._id, expiresIn: '30d' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
