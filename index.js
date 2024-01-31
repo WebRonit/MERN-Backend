@@ -11,14 +11,14 @@ dotenv.config({path: './config.env'});
 
 const app = express();
 app.use(cors({
-  origin: '*',
+  origin: 'https://qniver.netlify.app',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204,
   exposedHeaders: ['Authorization'],
 }));
 
-app.options('*', cors());
+app.options('https://qniver.netlify.app', cors());
 
 // app.options('/api/Login', cors(), (req, res) => {
 //   res.sendStatus(200);
