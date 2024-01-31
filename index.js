@@ -10,11 +10,16 @@ const secret = "ronit9664";
 dotenv.config({path: './config.env'}); 
 
 const app = express();
-app.use(cors({ origin: '*' }));
+app.use(cors({
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204,
+}));
 
-app.options('/api/Login', cors(), (req, res) => {
-  res.sendStatus(200);
-});
+// app.options('/api/Login', cors(), (req, res) => {
+//   res.sendStatus(200);
+// });
 const PORT = process.env.PORT || 3001; 
 
 
