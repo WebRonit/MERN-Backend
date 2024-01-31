@@ -1,3 +1,4 @@
+
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -10,19 +11,7 @@ const secret = "ronit9664";
 dotenv.config({path: './config.env'}); 
 
 const app = express();
-app.use(cors({
-  origin: 'https://qniver.netlify.app',
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
-  optionsSuccessStatus: 204,
-  exposedHeaders: ['Authorization'],
-}));
-
-app.options('*', cors());
-
-// app.options('/api/Login', cors(), (req, res) => {
-//   res.sendStatus(200);
-// });
+app.use(cors())
 const PORT = process.env.PORT || 3001; 
 
 
