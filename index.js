@@ -48,7 +48,7 @@ const verifyToken = (req, res, next) => {
 };
 
 // Example route for the dashboard
-app.get('/Dashboard', verifyToken, async (req, res) => {
+app.get('/Account', verifyToken, async (req, res) => {
   const userId = req.user.userId;
 
   try {
@@ -87,8 +87,9 @@ app.post('/api/SignUp', async (req, res) => {
     // Create a new user
     const newUser = new User({ fullname, email, password: hashedPassword });
     await newUser.save(); 
-
     res.status(200).json({ message: 'User registered successfully' });
+
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal server error' });
